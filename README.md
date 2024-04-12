@@ -2,6 +2,8 @@
 
 SimpleCaptcha is a Minecraft mod designed for entertainment purposes, adding a playful twist to interactions by introducing captcha challenges as pranks. This mod is perfect for Minecraft players and server admins who want to inject a bit of fun and surprise into their gameplay.
 
+![](https://i.imgur.com/knhFq4o.png)
+
 ## Disclaimer
 
 This mod is intended for **joke purposes only** and should not be used as a security measure. It is designed to add a fun and non-disruptive challenge for players, not to protect servers from bots or unauthorized access.
