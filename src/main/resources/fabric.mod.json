@@ -8,8 +8,8 @@
 		"tuples"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/simple-captcha",
+		"sources": "https://github.com/ttuples/SimpleCaptcha"
 	},
 	"license": "MIT",
 	"icon": "assets/captcha/icon.png",
