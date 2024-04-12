@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CaptchaSounds {
+    public static final Identifier button3_ID = new Identifier(Captcha.MOD_ID, "button3");
+    public static final SoundEvent button3 = SoundEvent.of(button3_ID);
+
     public static final Identifier whisper1_ID = new Identifier(Captcha.MOD_ID, "whisper1");
     public static final SoundEvent whisper1 = SoundEvent.of(whisper1_ID);
 
@@ -23,6 +26,7 @@ public class CaptchaSounds {
 
     public static void initializeSounds() {
         Captcha.LOGGER.info("initializing sounds for mod " + Captcha.MOD_ID);
+        Registry.register(Registries.SOUND_EVENT, button3_ID, button3);
         Registry.register(Registries.SOUND_EVENT, whisper1_ID, whisper1);
         Registry.register(Registries.SOUND_EVENT, whisper2_ID, whisper2);
         Registry.register(Registries.SOUND_EVENT, whisper3_ID, whisper3);

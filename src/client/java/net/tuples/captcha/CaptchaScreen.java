@@ -38,6 +38,9 @@ public class CaptchaScreen extends Screen {
     }
 
     private void newCaptcha() {
+        confirm.setMessage(Text.literal("Confirm"));
+
+        // Reset elements
         buttonStates.keySet().forEach(this::remove);
         buttonStates.clear();
 
@@ -52,6 +55,7 @@ public class CaptchaScreen extends Screen {
         captchaText = keys.get(rand);
         captchaKey = CaptchaData.captchas.get(captchaText);
 
+        // Play random spooky sound if on creep captcha
         boolean playSound = captchaKey.getOrDefault("sound", false);
         if (playSound) {
             if (client.world != null && client.player != null) {
