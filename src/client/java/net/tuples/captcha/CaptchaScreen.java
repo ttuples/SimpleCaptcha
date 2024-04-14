@@ -27,13 +27,15 @@ public class CaptchaScreen extends Screen {
     private String captchaText;
 
     private final MinecraftClient client;
-    private final SoundManager soundManager;
+    private SoundManager soundManager;
     private SoundInstance sound;
 
     public CaptchaScreen() {
         super(Text.literal("Captcha Screen"));
         client = MinecraftClient.getInstance();
         soundManager = client.getSoundManager();
+        if (Captcha.config.soundEffects)
+            soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("blip1"), 1.0F, 0.6F));
         newCaptcha();
     }
 
@@ -107,9 +109,13 @@ public class CaptchaScreen extends Screen {
                     index++;
                 }
                 if (allMatch) {
+                    if (Captcha.config.soundEffects)
+                        soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("button3"), 1.0F, 0.6F));
                     this.close();
                 }
                 else {
+                    if (Captcha.config.soundEffects)
+                        soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("button10"), 1.0F, 0.6F));
                     newCaptcha();
                 }
             })

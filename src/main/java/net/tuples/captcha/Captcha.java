@@ -1,6 +1,8 @@
 package net.tuples.captcha;
 
 import io.netty.buffer.Unpooled;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -24,9 +26,13 @@ public class Captcha implements ModInitializer {
 
 	public static final Identifier open_captcha = new Identifier(Captcha.MOD_ID, "open_captcha");
 
+	public static CaptchaConfig config;
+
 	@Override
 	public void onInitialize() {
 		CaptchaSounds.initializeSounds();
+		AutoConfig.register(CaptchaConfig.class, JanksonConfigSerializer::new);
+		config = AutoConfig.getConfigHolder(CaptchaConfig.class).getConfig();
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("captcha")
 				.requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
