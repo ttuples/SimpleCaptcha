@@ -1,5 +1,7 @@
 package net.tuples.captcha;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -17,15 +19,19 @@ import java.util.*;
 
 public class CaptchaScreen extends Screen {
 
+    // UI elements
     private GridWidget gridDisplay;
     private final Map<CaptchaImageButton, Boolean> buttonStates = new LinkedHashMap<>();
     private final int cellSize = 32;
     private final int cellSpacing = 5;
     private int gridSize;
 
-    private Map<String, Boolean> captchaKey;
-    private String captchaText;
+    // Solving info
+    private JsonObject captcha;     // JsonObject with captcha data
+    private String captchaId;       // Current captcha id for tracking previous captchas
+    private final Map<String, Boolean> captchaKey = new LinkedHashMap<>(); // Map of image paths and their answer key
 
+    // Client and sounds
     private final MinecraftClient client;
     private SoundManager soundManager;
     private SoundInstance sound;
@@ -37,63 +43,6 @@ public class CaptchaScreen extends Screen {
         if (Captcha.config.soundEffects)
             soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("blip1"), 1.0F, 0.6F));
         newCaptcha();
-    }
-
-    private void newCaptcha() {
-        confirm.setMessage(Text.literal("Confirm"));
-
-        // Reset elements
-        buttonStates.keySet().forEach(this::remove);
-        buttonStates.clear();
-
-        gridDisplay = new GridWidget().setSpacing(cellSpacing);
-
-        // Get random captcha data
-        List<String> keys = new ArrayList<>(CaptchaData.captchas.keySet());
-        if (captchaText != null) {
-            keys.remove(captchaText);
-        }
-        int rand = new Random().nextInt(keys.size());
-        captchaText = keys.get(rand);
-        captchaKey = CaptchaData.captchas.get(captchaText);
-
-        // Play random spooky sound if on creep captcha
-        boolean playSound = captchaKey.getOrDefault("sound", false);
-        if (playSound) {
-            if (client.world != null && client.player != null) {
-                int randSound = new Random().nextInt(CaptchaSounds.whisper_sounds.size());
-                if (soundManager.isPlaying(sound))
-                    soundManager.stop(sound);
-                sound = PositionedSoundInstance.master(CaptchaSounds.whisper_sounds.get(randSound), 1.0F, 0.3F);
-                soundManager.play(sound);
-            }
-            captchaKey.remove("sound");
-        } else {
-            if (soundManager.isPlaying(sound))
-                soundManager.stop(sound);
-        }
-
-        initializeButtons();
-        updateElements();
-    }
-
-    private void initializeButtons() {
-        List<String> imagePaths = new ArrayList<>(captchaKey.keySet());
-        gridSize = (int) Math.ceil(Math.sqrt(imagePaths.size()));
-
-        for (int i = 0; i < imagePaths.size(); i++) {
-            Identifier image = new Identifier(imagePaths.get(i));
-            CaptchaImageButton button = new CaptchaImageButton(0, 0, cellSize, cellSize, image, b -> {
-                buttonStates.put((CaptchaImageButton) b, !buttonStates.getOrDefault(b, false));
-                if (buttonStates.containsValue(true)) {
-                    confirm.setMessage(Text.literal("Confirm"));
-                } else {
-                    confirm.setMessage(Text.literal("Skip"));
-                }
-            });
-            buttonStates.put(button, false);
-            gridDisplay.add(button, i / gridSize, i % gridSize);
-        }
     }
 
     private final ButtonWidget confirm = ButtonWidget.builder(
@@ -123,13 +72,74 @@ public class CaptchaScreen extends Screen {
             .tooltip(Tooltip.of(Text.literal(":)")))
             .build();
 
+    private void newCaptcha() {
+        // Reset elements
+        confirm.setMessage(Text.literal("Confirm"));
+        buttonStates.keySet().forEach(this::remove);
+        buttonStates.clear();
+        gridDisplay = new GridWidget().setSpacing(cellSpacing);
+
+        // Get random captcha data
+        List<String> keys = new ArrayList<>(CaptchaData.captchas.keySet());
+
+        // Remove previous captcha from possible selection
+        if (captchaId != null) {
+            keys.remove(captchaId);
+        }
+
+        int rand = new Random().nextInt(keys.size());
+        captchaId = keys.get(rand);
+        captcha = CaptchaData.captchas.get(captchaId).getAsJsonObject();
+
+        // Update captcha key data for solving and image loading
+        captchaKey.clear();
+        for (Map.Entry<String, JsonElement> entry : captcha.get("images").getAsJsonObject().entrySet()) {
+            captchaKey.put(entry.getKey(), entry.getValue().getAsBoolean());
+        }
+
+        // Play random spooky sound if on creep captcha
+        if (captcha.get("creep").getAsBoolean()) {
+            if (client.world != null && client.player != null) {
+                int randSound = new Random().nextInt(CaptchaSounds.whisper_sounds.size());
+                if (soundManager.isPlaying(sound))
+                    soundManager.stop(sound);
+                sound = PositionedSoundInstance.master(CaptchaSounds.whisper_sounds.get(randSound), 1.0F, 0.3F);
+                soundManager.play(sound);
+            }
+        } else {
+            if (soundManager.isPlaying(sound))
+                soundManager.stop(sound);
+        }
+
+        initializeButtons();
+        updateElements();
+    }
+
+    private void initializeButtons() {
+        List<String> imagePaths = new ArrayList<>(captchaKey.keySet());
+        gridSize = (int) Math.ceil(Math.sqrt(imagePaths.size()));
+
+        for (int i = 0; i < imagePaths.size(); i++) {
+            Identifier image = new Identifier(imagePaths.get(i));
+            CaptchaImageButton button = new CaptchaImageButton(0, 0, cellSize, cellSize, image, b -> {
+                buttonStates.put((CaptchaImageButton) b, !buttonStates.getOrDefault(b, false));
+                if (buttonStates.containsValue(true)) {
+                    confirm.setMessage(Text.literal("Confirm"));
+                } else {
+                    confirm.setMessage(Text.literal("Skip"));
+                }
+            });
+            buttonStates.put(button, false);
+            gridDisplay.add(button, i / gridSize, i % gridSize);
+        }
+    }
+
     @Override
     protected void init() {
         updateElements();
     }
 
     private void updateElements() {
-
         int gridWidth = (cellSize * gridSize) + (cellSpacing * (gridSize - 1));
         int gridY = (int)(height * 0.2F);
 
@@ -159,10 +169,11 @@ public class CaptchaScreen extends Screen {
         super.render(context, mouseX, mouseY, delta);
 
         context.drawCenteredTextWithShadow(textRenderer, Text.literal("Select all images that contain"), width / 2, (int)(height * 0.05F), 0xffffff);
-        context.drawCenteredTextWithShadow(textRenderer, Text.literal(captchaText), width / 2, (int)(height * 0.1F), 0xffc321);
+        context.drawCenteredTextWithShadow(textRenderer, Text.literal(captcha.get("text").getAsString()), width / 2, (int)(height * 0.1F), 0xffc321);
         context.drawCenteredTextWithShadow(textRenderer, Text.literal("If there is none click skip"), width / 2, (int)(height * 0.15F), 0xffffff);
     }
 
+    // Custom image button object
     private class CaptchaImageButton extends ButtonWidget {
         private static final int outlineMargin = 2;
         private static final int outlineColor = 0x80FFFFFF;
@@ -178,6 +189,7 @@ public class CaptchaScreen extends Screen {
         protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
             context.drawTexture(image, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 
+            // Determine outline states
             if (buttonStates.getOrDefault(this, false)) {
                 context.drawBorder(
                         this.getX() - outlineMargin,
