@@ -1,0 +1,24 @@
+{
+  "captcha.narrator.title": "Ekran Captcha",
+  "captcha.narrator.button": "Przycisk obrazu Captcha",
+
+  "captcha.ui.instruction": "Zaznacz wszystkie obrazy zawierające",
+  "captcha.ui.skip": "Jeśli nie ma żadnego, naciśnij Pomiń",
+  "captcha.ui.button.confirm": "Zatwierdź",
+  "captcha.ui.button.skip": "Pomiń",
+
+  "captcha.key.obsidian": "Obsydian",
+  "captcha.key.leaves": "Liście",
+  "captcha.key.pigs": "Świnie",
+  "captcha.key.pumpkin": "Dynię",
+  "captcha.key.coal_ore": "Rudę węgla",
+  "captcha.key.sugar_cane": "Trzcinę cukrową",
+  "captcha.key.cocoa_beans": "Ziarna kakaowe",
+  "captcha.key.fish": "Rybę",
+  "captcha.key.chest": "Skrzynię",
+  "captcha.key.rose": "Róże",
+  "captcha.key.creep_woods": "Dziwne stworzenie",
+  "captcha.key.creep_snowy_forest": "§kUkrytego potwora",
+  "captcha.key.creep_alley": "§Potwora§r z Jeziora",
+  "captcha.key.creep_forest": "Dziwny Obiekt"
+}
