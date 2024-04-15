@@ -1,6 +1,6 @@
 {
   "obsidian": {
-    "text": "Obsidian",
+    "text": "captcha.key.obsidian",
     "creep": false,
     "images": {
       "captcha:images/obsidian/cell_0_0.png": false,
@@ -22,7 +22,7 @@
     }
   },
   "leaves": {
-    "text": "Leaves",
+    "text": "captcha.key.leaves",
     "creep": false,
     "images": {
       "captcha:images/leaves/cell_0_0.png": false,
@@ -44,7 +44,7 @@
     }
   },
   "pig": {
-    "text": "Pigs",
+    "text": "captcha.key.pigs",
     "creep": false,
     "images": {
       "captcha:images/pig/cell_0_0.png": false,
@@ -66,7 +66,7 @@
     }
   },
   "pumpkin": {
-    "text": "Pumpkin",
+    "text": "captcha.key.pumpkin",
     "creep": false,
     "images": {
       "captcha:images/pumpkin/cell_0_0.png": false,
@@ -88,7 +88,7 @@
     }
   },
   "coal_ore": {
-    "text": "Coal Ore",
+    "text": "captcha.key.coal_ore",
     "creep": false,
     "images": {
       "captcha:images/coal_ore/cell_0_0.png": false,
@@ -110,7 +110,7 @@
     }
   },
   "sugar_cane": {
-    "text": "Sugar Cane",
+    "text": "captcha.key.sugar_cane",
     "creep": false,
     "images": {
       "captcha:images/sugar_cane/cell_0_0.png": false,
@@ -132,7 +132,7 @@
     }
   },
   "cocoa_beans": {
-    "text": "Cocoa Beans",
+    "text": "captcha.key.cocoa_beans",
     "creep": false,
     "images": {
       "captcha:images/cocoa_beans/cell_0_0.png": false,
@@ -154,7 +154,7 @@
     }
   },
   "fish": {
-    "text": "Fish",
+    "text": "captcha.key.fish",
     "creep": false,
     "images": {
       "captcha:images/fish/cell_0_0.png": false,
@@ -176,7 +176,7 @@
     }
   },
   "chest": {
-    "text": "Chest",
+    "text": "captcha.key.chest",
     "creep": false,
     "images": {
       "captcha:images/chest/cell_0_0.png": false,
@@ -198,7 +198,7 @@
     }
   },
   "rose": {
-    "text": "Rose",
+    "text": "captcha.key.rose",
     "creep": false,
     "images": {
       "captcha:images/rose/cell_0_0.png": false,
@@ -220,7 +220,7 @@
     }
   },
   "creep_woods": {
-    "text": "Strange Creature",
+    "text": "captcha.key.creep_woods",
     "creep": true,
     "images": {
       "captcha:images/creep_woods/cell_0_0.png": false,
@@ -242,7 +242,7 @@
     }
   },
   "creep_snowy_forest": {
-    "text": "§kHidden Monster",
+    "text": "captcha.key.creep_snowy_forest",
     "creep": true,
     "images": {
       "captcha:images/creep_snowy_forest/cell_0_0.png": false,
@@ -264,7 +264,7 @@
     }
   },
   "creep_alley": {
-    "text": "§kMonster§r of the Lake",
+    "text": "captcha.key.creep_alley",
     "creep": true,
     "images": {
       "captcha:images/creep_alley/cell_0_0.png": false,
@@ -286,7 +286,7 @@
     }
   },
   "creep_forest": {
-    "text": "Strange Object",
+    "text": "captcha.key.creep_forest",
     "creep": true,
     "images": {
       "captcha:images/creep_forest/cell_0_0.png": false,

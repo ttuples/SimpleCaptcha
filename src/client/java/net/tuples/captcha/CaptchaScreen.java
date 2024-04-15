@@ -37,7 +37,7 @@ public class CaptchaScreen extends Screen {
     private SoundInstance sound;
 
     public CaptchaScreen() {
-        super(Text.literal("Captcha Screen"));
+        super(Text.translatable("captcha.narrator.title"));
         client = MinecraftClient.getInstance();
         soundManager = client.getSoundManager();
         if (Captcha.config.soundEffects)
@@ -74,7 +74,7 @@ public class CaptchaScreen extends Screen {
 
     private void newCaptcha() {
         // Reset elements
-        confirm.setMessage(Text.literal("Confirm"));
+        confirm.setMessage(Text.translatable("captcha.ui.button.confirm"));
         buttonStates.keySet().forEach(this::remove);
         buttonStates.clear();
         gridDisplay = new GridWidget().setSpacing(cellSpacing);
@@ -124,9 +124,9 @@ public class CaptchaScreen extends Screen {
             CaptchaImageButton button = new CaptchaImageButton(0, 0, cellSize, cellSize, image, b -> {
                 buttonStates.put((CaptchaImageButton) b, !buttonStates.getOrDefault(b, false));
                 if (buttonStates.containsValue(true)) {
-                    confirm.setMessage(Text.literal("Confirm"));
+                    confirm.setMessage(Text.translatable("captcha.ui.button.confirm"));
                 } else {
-                    confirm.setMessage(Text.literal("Skip"));
+                    confirm.setMessage(Text.translatable("captcha.ui.button.skip"));
                 }
             });
             buttonStates.put(button, false);
@@ -168,9 +168,9 @@ public class CaptchaScreen extends Screen {
         this.renderBackground(context);
         super.render(context, mouseX, mouseY, delta);
 
-        context.drawCenteredTextWithShadow(textRenderer, Text.literal("Select all images that contain"), width / 2, (int)(height * 0.05F), 0xffffff);
-        context.drawCenteredTextWithShadow(textRenderer, Text.literal(captcha.get("text").getAsString()), width / 2, (int)(height * 0.1F), 0xffc321);
-        context.drawCenteredTextWithShadow(textRenderer, Text.literal("If there is none click skip"), width / 2, (int)(height * 0.15F), 0xffffff);
+        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("captcha.ui.instruction"), width / 2, (int)(height * 0.05F), 0xffffff);
+        context.drawCenteredTextWithShadow(textRenderer, Text.translatable(captcha.get("text").getAsString()), width / 2, (int)(height * 0.1F), 0xffc321);
+        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("captcha.ui.skip"), width / 2, (int)(height * 0.15F), 0xffffff);
     }
 
     // Custom image button object
@@ -181,7 +181,7 @@ public class CaptchaScreen extends Screen {
         private final Identifier image;
 
         protected CaptchaImageButton(int x, int y, int width, int height, Identifier image, PressAction onPress) {
-            super(x, y, width, height, Text.empty(), onPress, (MutableText) -> Text.literal("Captcha Image Button"));
+            super(x, y, width, height, Text.empty(), onPress, (MutableText) -> Text.translatable("captcha.narrator.button"));
             this.image = image;
         }
 
