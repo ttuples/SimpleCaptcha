@@ -207,21 +207,5 @@ public class CaptchaScreen extends Screen {
                         selectedColor);
             }
         }
-
-        @Override
-        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-            if (this.active && this.visible) {
-                if (KeyCodes.isToggle(keyCode)) {
-//                    this.playDownSound(MinecraftClient.getInstance().getSoundManager());
-                    soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("blip1"), 1.0F, 0.4F));
-                    this.onPress();
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
     }
 }
