@@ -9,6 +9,6 @@ public class CaptchaClient implements ClientModInitializer {
 	public void onInitializeClient() {
         ClientLifecycleEvents.CLIENT_STARTED.register(CaptchaData::initializeCaptchas);
 
-        ClientPlayNetworking.registerGlobalReceiver(Captcha.open_captcha, ((client, handler, buf, responseSender) -> client.execute(()-> client.setScreen(new CaptchaScreen()))));
+        ClientPlayNetworking.registerGlobalReceiver(Captcha.OPEN_CAPTCHA, ((client, handler, buf, responseSender) -> client.execute(()-> client.setScreen(new CaptchaScreen()))));
 	}
 }

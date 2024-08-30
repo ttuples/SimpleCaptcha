@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.GridWidget;
+import net.minecraft.client.input.KeyCodes;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundManager;
@@ -204,6 +205,22 @@ public class CaptchaScreen extends Screen {
                         this.getWidth() + (outlineMargin * 2),
                         this.getHeight() + (outlineMargin * 2),
                         selectedColor);
+            }
+        }
+
+        @Override
+        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+            if (this.active && this.visible) {
+                if (KeyCodes.isToggle(keyCode)) {
+//                    this.playDownSound(MinecraftClient.getInstance().getSoundManager());
+                    soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("blip1"), 1.0F, 0.4F));
+                    this.onPress();
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
             }
         }
     }

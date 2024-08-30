@@ -24,7 +24,7 @@ public class Captcha implements ModInitializer {
 	public  static final String MOD_ID = "captcha";
     public static final Logger LOGGER = LoggerFactory.getLogger("captcha");
 
-	public static final Identifier open_captcha = new Identifier(Captcha.MOD_ID, "open_captcha");
+	public static final Identifier OPEN_CAPTCHA = new Identifier(Captcha.MOD_ID, "open_captcha");
 
 	public static CaptchaConfig config;
 
@@ -39,7 +39,7 @@ public class Captcha implements ModInitializer {
 				.executes(context -> {
 					ServerCommandSource source = context.getSource();
 					if (source.getEntity() instanceof ServerPlayerEntity player) {
-						player.networkHandler.sendPacket(new CustomPayloadS2CPacket(open_captcha, new PacketByteBuf(Unpooled.buffer())));
+						player.networkHandler.sendPacket(new CustomPayloadS2CPacket(OPEN_CAPTCHA, new PacketByteBuf(Unpooled.buffer())));
 					} else {
 						source.sendError(Text.literal("This command can only be run by a player."));
 					}
@@ -48,7 +48,7 @@ public class Captcha implements ModInitializer {
 				.then(argument("player", EntityArgumentType.player())
 						.executes(context -> {
 							ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
-							player.networkHandler.sendPacket(new CustomPayloadS2CPacket(open_captcha, new PacketByteBuf(Unpooled.buffer())));
+							player.networkHandler.sendPacket(new CustomPayloadS2CPacket(OPEN_CAPTCHA, new PacketByteBuf(Unpooled.buffer())));
 							return 1;
 						})
 				)
