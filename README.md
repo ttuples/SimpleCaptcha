@@ -51,6 +51,7 @@ Replace `username` with the actual player's name to surprise them with a captcha
 ## Contributions
 
 Feel free to contribute to SimpleCaptcha! If you have ideas for new types of captcha challenges or other humorous enhancements, fork the repository and submit a pull request with your changes.
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this project by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
 
 ## License
 
