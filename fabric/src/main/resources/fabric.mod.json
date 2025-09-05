@@ -19,7 +19,7 @@
       "net.tuples.captcha.fabric.CaptchaFabric"
     ],
     "client": [
-      "net.tuples.captcha.fabric.client.CaptchaClientFabric"
+      "net.tuples.captcha.fabric.client.CaptchaFabricClient"
     ]
   },
   "mixins": [
