@@ -1,33 +1,33 @@
 modLoader = "javafml"
 loaderVersion = "[9,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "MIT"
 
 [[mods]]
-modId = "simple-captcha"
+modId = "captcha"
 version = "${version}"
 displayName = "Simple Captcha"
-authors = "Me!"
+authors = "tuples"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Funny captcha prank for your friends
 '''
 #logoFile = ""
 
-[[dependencies.simple-captcha]]
+[[dependencies.captcha]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21.8,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.simple-captcha]]
+[[dependencies.captcha]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.8,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.simple-captcha]]
+[[dependencies.captcha]]
 modId = "architectury"
 type = "required"
 versionRange = "[17.0.8,)"
@@ -35,4 +35,4 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[mixins]]
-config = "simple-captcha.mixins.json"
+config = "captcha.mixins.json"

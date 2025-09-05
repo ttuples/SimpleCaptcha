@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'simple-captcha'
+rootProject.name = 'captcha'
 
 include 'common'
 include 'fabric'
