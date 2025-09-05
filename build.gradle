@@ -8,6 +8,7 @@ group = project.maven_group
 
 base {
 	archivesName = project.archives_base_name
+    version = "${project.mod_version}-${project.mc_version_suffix}"
 }
 
 repositories {
