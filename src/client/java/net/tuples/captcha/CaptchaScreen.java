@@ -121,7 +121,7 @@ public class CaptchaScreen extends Screen {
         gridSize = (int) Math.ceil(Math.sqrt(imagePaths.size()));
 
         for (int i = 0; i < imagePaths.size(); i++) {
-            Identifier image = new Identifier(imagePaths.get(i));
+            Identifier image = Identifier.of(imagePaths.get(i));
             CaptchaImageButton button = new CaptchaImageButton(0, 0, cellSize, cellSize, image, b -> {
                 buttonStates.put((CaptchaImageButton) b, !buttonStates.getOrDefault(b, false));
                 if (buttonStates.containsValue(true)) {
@@ -166,7 +166,7 @@ public class CaptchaScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
+        this.renderBackground(context, mouseX, mouseY, delta);
         super.render(context, mouseX, mouseY, delta);
 
         context.drawCenteredTextWithShadow(textRenderer, Text.translatable("captcha.ui.instruction"), width / 2, (int)(height * 0.05F), 0xffffff);
@@ -187,7 +187,7 @@ public class CaptchaScreen extends Screen {
         }
 
         @Override
-        protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+        protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
             context.drawTexture(image, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 
             // Determine outline states

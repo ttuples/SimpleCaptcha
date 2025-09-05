@@ -17,7 +17,7 @@ public class CaptchaData {
 
     public static JsonObject captchas = new JsonObject();
 
-    private static final Identifier jsonId = new Identifier(Captcha.MOD_ID, "captcha.json");
+    private static final Identifier jsonId = Identifier.of(Captcha.MOD_ID, "captcha.json");
 
     private static MinecraftClient client;
 

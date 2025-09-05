@@ -27,14 +27,14 @@ public class CaptchaSounds {
     }
 
     private static void registerSound(String name) {
-        Identifier id = new Identifier(Captcha.MOD_ID, name);
+        Identifier id = Identifier.of(Captcha.MOD_ID, name);
         SoundEvent sound = SoundEvent.of(id);
         sounds.put(name, sound);
         Registry.register(Registries.SOUND_EVENT, id, sound);
     }
 
     private static void registerWhisperSound(String name) {
-        Identifier id = new Identifier(Captcha.MOD_ID, name);
+        Identifier id = Identifier.of(Captcha.MOD_ID, name);
         SoundEvent sound = SoundEvent.of(id);
         sounds.put(name, sound);
         whisper_sounds.add(sound);
