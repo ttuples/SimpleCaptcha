@@ -1,0 +1,24 @@
+{
+  "captcha.narrator.title": "Captcha Screen",
+  "captcha.narrator.button": "Captcha Image Button",
+
+  "captcha.ui.instruction": "Select all images that contain",
+  "captcha.ui.skip": "If there is none click skip",
+  "captcha.ui.button.confirm": "Confirm",
+  "captcha.ui.button.skip": "Skip",
+
+  "captcha.key.obsidian": "Obsidian",
+  "captcha.key.leaves": "Leaves",
+  "captcha.key.pigs": "Pigs",
+  "captcha.key.pumpkin": "Pumpkin",
+  "captcha.key.coal_ore": "Coal Ore",
+  "captcha.key.sugar_cane": "Sugar Cane",
+  "captcha.key.cocoa_beans": "Cocoa Beans",
+  "captcha.key.fish": "Fish",
+  "captcha.key.chest": "Chest",
+  "captcha.key.rose": "Rose",
+  "captcha.key.creep_woods": "Strange Creature",
+  "captcha.key.creep_snowy_forest": "§kHidden Monster",
+  "captcha.key.creep_alley": "§kMonster§r of the Lake",
+  "captcha.key.creep_forest": "Strange Object"
+}

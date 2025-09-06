@@ -23,6 +23,10 @@ SimpleCaptcha introduces two primary commands to control when and to whom captch
 
 - `/captcha [player]`: Triggers a captcha challenge to the specified player. This allows for an element of surprise to other players' gameplay.
 
+## Requirements
+- [Fabric API](https://modrinth.com/mod/fabric-api)
+- [Cloth Config](https://modrinth.com/mod/cloth-config)
+- 
 ## Installation
 
 To install SimpleCaptcha, follow these simple steps:

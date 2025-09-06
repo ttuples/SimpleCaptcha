@@ -1,0 +1,32 @@
+{
+  "whisper1": {
+    "sounds": [
+      "captcha:whisper1"
+    ]
+  },
+  "whisper2": {
+    "sounds": [
+      "captcha:whisper2"
+    ]
+  },
+  "whisper3": {
+    "sounds": [
+      "captcha:whisper3"
+    ]
+  },
+  "button3": {
+    "sounds": [
+      "captcha:button3"
+    ]
+  },
+  "button10": {
+    "sounds": [
+      "captcha:button10"
+    ]
+  },
+  "blip1": {
+    "sounds": [
+      "captcha:blip1"
+    ]
+  }
+}

@@ -15,7 +15,7 @@ allprojects {
     repositories {
         maven {
             name = "ParchmentMC"
-            url = 'https://mave.parchmentmc.org'
+            url = 'https://maven.parchmentmc.org'
         }
     }
 }
