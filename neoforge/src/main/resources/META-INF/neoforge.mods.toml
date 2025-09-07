@@ -2,6 +2,7 @@ modLoader = "javafml"
 loaderVersion = "[9,)"
 #issueTrackerURL = ""
 license = "MIT"
+logoFile="assets/captcha/icon.png"
 
 [[mods]]
 modId = "captcha"
