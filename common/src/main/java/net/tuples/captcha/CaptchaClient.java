@@ -4,8 +4,7 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.Minecraft;
 
 public class CaptchaClient {
-    public static void init() {
-        Minecraft client = Minecraft.getInstance();
+    public static void init(Minecraft client) {
         CaptchaData.initializeCaptchas(client);
 
         NetworkManager.registerReceiver(

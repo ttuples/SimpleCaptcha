@@ -132,9 +132,16 @@ public class CaptchaScreen extends Screen {
         }
     }
 
-    @Override
-    protected void init() {
-        updateElements();
+    private void layoutGrid() {
+        int index = 0;
+        for (CaptchaImageButton button : buttonStates.keySet()) {
+            int row = index / gridSize;
+            int col = index % gridSize;
+            int x = gridDisplay.getX() + col * (cellSize + cellSpacing);
+            int y = gridDisplay.getY() + row * (cellSize + cellSpacing);
+            button.setPosition(x, y);
+            index++;
+        }
     }
 
     private void updateElements() {
@@ -142,7 +149,8 @@ public class CaptchaScreen extends Screen {
         int gridY = (int)(height * 0.2F);
 
         gridDisplay.setPosition((width / 2) - (gridWidth / 2), gridY);
-//        gridDisplay.refreshPositions();
+
+        layoutGrid();
 
         buttonStates.keySet().forEach(button -> {
             if (!this.children().contains(button)) {
@@ -157,18 +165,29 @@ public class CaptchaScreen extends Screen {
     }
 
     @Override
+    protected void init() {
+        updateElements();
+    }
+
+    @Override
     public boolean shouldCloseOnEsc() {
         return false;
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, delta);
         super.render(guiGraphics, mouseX, mouseY, delta);
+
+        guiGraphics.drawStringWithBackdrop(client.font, Component.literal("TEST"), 10, 10, 4, 0xffffff);
 
         guiGraphics.drawCenteredString(client.font, Component.translatable("captcha.ui.instruction"), width / 2, (int)(height * 0.05F), 0xffffff);
         guiGraphics.drawCenteredString(client.font, Component.translatable(captcha.get("text").getAsString()), width / 2, (int)(height * 0.1F), 0xffc321);
         guiGraphics.drawCenteredString(client.font, Component.translatable("captcha.ui.skip"), width / 2, (int)(height * 0.15F), 0xffffff);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 
     // Custom image button object
@@ -188,11 +207,12 @@ public class CaptchaScreen extends Screen {
         protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
             guiGraphics.blit(
                     image,
-                    getX(), getY(),
-                    0,
-                    0,
-                    getWidth(), getHeight(),
-                    getWidth(), getHeight()
+                    getX(),
+                    getY(),
+                    getX() + getWidth(),
+                    getY() + getHeight(),
+                    0f, 1f,
+                    0f, 1f
             );
 
             // Determine outline states
