@@ -3,9 +3,7 @@
   "captcha.narrator.button": "Captcha Image Button",
 
   "captcha.ui.instruction": "Select all images that contain",
-  "captcha.ui.skip": "If there is none click skip",
   "captcha.ui.button.confirm": "Confirm",
-  "captcha.ui.button.skip": "Skip",
 
   "captcha.key.obsidian": "Obsidian",
   "captcha.key.leaves": "Leaves",

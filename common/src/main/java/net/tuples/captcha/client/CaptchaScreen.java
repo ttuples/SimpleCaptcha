@@ -1,4 +1,4 @@
-package net.tuples.captcha;
+package net.tuples.captcha.client;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,40 +13,32 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
+import net.tuples.captcha.Captcha;
+import net.tuples.captcha.config.CaptchaConfig;
+import net.tuples.captcha.config.CaptchaData;
 
 import java.util.*;
 
 public class CaptchaScreen extends Screen {
-
     // UI elements
-    private GridLayout gridDisplay;
     private final Map<CaptchaImageButton, Boolean> buttonStates = new LinkedHashMap<>();
     private final int cellSize = 32;
     private final int cellSpacing = 5;
     private int gridSize;
+    private GridLayout gridDisplay;
 
     // Solving info
-    private JsonObject captcha;     // JsonObject with captcha data
-    private String captchaId;       // Current captcha id for tracking previous captcha
-    private final Map<String, Boolean> captchaKey = new LinkedHashMap<>(); // Map of image paths and their answer key
+    private final Map<String, Boolean> captchaKey = new LinkedHashMap<>();
+    private JsonObject captcha_data;
+    private String captchaId;
 
     // Client and sounds
     private final Minecraft client;
-    private final SoundManager soundManager;
+    private SoundManager soundManager;
     private SoundInstance sound;
 
-    public CaptchaScreen() {
-        super(Component.translatable("captcha.narrator.title"));
-        client = Minecraft.getInstance();
-        soundManager = client.getSoundManager();
-//        if (Captcha.config.soundEffects)
-//            soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("blip1"), 1.0F, 0.6F));
-        newCaptcha();
-    }
-
     private final Button confirm = Button.builder(
-            Component.literal("Skip"), button -> {
+            Component.translatable("captcha.ui.button.confirm"), button -> {
                 List<Boolean> correctValues = new ArrayList<>(captchaKey.values());
                 boolean allMatch = true;
                 int index = 0;
@@ -59,22 +51,30 @@ public class CaptchaScreen extends Screen {
                 }
                 if (allMatch) {
 //                    if (Captcha.config.soundEffects)
-//                        soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("button3"), 1.0F, 0.6F));
-                    minecraft.setScreen(null);
+                    soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("button3")));
+                    Minecraft.getInstance().setScreen(null);
                 }
                 else {
-//                    if (Captcha.config.soundEffects)
-//                        soundManager.play(PositionedSoundInstance.master(CaptchaSounds.sounds.get("button10"), 1.0F, 0.6F));
-                    newCaptcha();
+                    if (CaptchaConfig.soundEffects)
+                        soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("button10")));
+                    refreshCaptcha();
                 }
             })
             .size(80, 20)
             .tooltip(Tooltip.create(Component.literal(":)")))
             .build();
 
-    private void newCaptcha() {
+    public CaptchaScreen() {
+        super(Component.translatable("captcha.narrator.title"));
+        client = Minecraft.getInstance();
+        soundManager = client.getSoundManager();
+//        if (CaptchaConfig.soundEffects)
+        soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("blip1")));
+        refreshCaptcha();
+    }
+
+    private void refreshCaptcha() {
         // Reset elements
-        confirm.setMessage(Component.translatable("captcha.ui.button.confirm"));
         buttonStates.clear();
         gridDisplay = new GridLayout().spacing(cellSpacing);
 
@@ -88,21 +88,21 @@ public class CaptchaScreen extends Screen {
 
         int rand = new Random().nextInt(keys.size());
         captchaId = keys.get(rand);
-        captcha = CaptchaData.captchas.get(captchaId).getAsJsonObject();
+        captcha_data = CaptchaData.captchas.get(captchaId).getAsJsonObject();
 
         // Update captcha key data for solving and image loading
         captchaKey.clear();
-        for (Map.Entry<String, JsonElement> entry : captcha.get("images").getAsJsonObject().entrySet()) {
+        for (Map.Entry<String, JsonElement> entry : captcha_data.get("images").getAsJsonObject().entrySet()) {
             captchaKey.put(entry.getKey(), entry.getValue().getAsBoolean());
         }
 
         // Play random spooky sound if on creep captcha
-        if (captcha.get("creep").getAsBoolean()) {
+        if (captcha_data.get("creep").getAsBoolean()) { // && Captcha.config.sounds
             if (client.level != null && client.player != null) {
-                SoundEvent randSound = CaptchaSounds.randomWhisper();
                 if (soundManager.isActive(sound))
                     soundManager.stop(sound);
-                soundManager.play(SimpleSoundInstance.forAmbientAddition(randSound));
+                sound = SimpleSoundInstance.forAmbientAddition(CaptchaSounds.randomWhisper());
+                soundManager.play(sound);
             }
         } else {
             if (soundManager.isActive(sound))
@@ -121,11 +121,6 @@ public class CaptchaScreen extends Screen {
             ResourceLocation image = ResourceLocation.fromNamespaceAndPath(Captcha.MOD_ID, imagePaths.get(i));
             CaptchaImageButton button = new CaptchaImageButton(0, 0, cellSize, cellSize, image, b -> {
                 buttonStates.put((CaptchaImageButton) b, !buttonStates.getOrDefault(b, false));
-                if (buttonStates.containsValue(true)) {
-                    confirm.setMessage(Component.translatable("captcha.ui.button.confirm"));
-                } else {
-                    confirm.setMessage(Component.translatable("captcha.ui.button.skip"));
-                }
             });
             buttonStates.put(button, false);
             gridDisplay.addChild(button, i / gridSize, i % gridSize);
@@ -164,6 +159,11 @@ public class CaptchaScreen extends Screen {
         }
     }
 
+    private void renderText(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        guiGraphics.drawCenteredString(client.font, Component.translatable("captcha.ui.instruction"), width / 2, (int)(height * 0.05F), 0xffffffff);
+        guiGraphics.drawCenteredString(client.font, Component.translatable(captcha_data.get("text").getAsString()), width / 2, (int)(height * 0.1F), 0xffffc321);
+    }
+
     @Override
     protected void init() {
         updateElements();
@@ -177,12 +177,7 @@ public class CaptchaScreen extends Screen {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         super.render(guiGraphics, mouseX, mouseY, delta);
-
-        guiGraphics.drawStringWithBackdrop(client.font, Component.literal("TEST"), 10, 10, 4, 0xffffff);
-
-        guiGraphics.drawCenteredString(client.font, Component.translatable("captcha.ui.instruction"), width / 2, (int)(height * 0.05F), 0xffffff);
-        guiGraphics.drawCenteredString(client.font, Component.translatable(captcha.get("text").getAsString()), width / 2, (int)(height * 0.1F), 0xffc321);
-        guiGraphics.drawCenteredString(client.font, Component.translatable("captcha.ui.skip"), width / 2, (int)(height * 0.15F), 0xffffff);
+        this.renderText(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override

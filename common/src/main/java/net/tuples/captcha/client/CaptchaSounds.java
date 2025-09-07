@@ -1,10 +1,11 @@
-package net.tuples.captcha;
+package net.tuples.captcha.client;
 
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.tuples.captcha.Captcha;
 
 import java.util.*;
 

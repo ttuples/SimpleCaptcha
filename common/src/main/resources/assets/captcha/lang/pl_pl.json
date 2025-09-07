@@ -3,9 +3,7 @@
   "captcha.narrator.button": "Przycisk obrazu Captcha",
 
   "captcha.ui.instruction": "Zaznacz wszystkie obrazy zawierające",
-  "captcha.ui.skip": "Jeśli nie ma żadnego, naciśnij Pomiń",
   "captcha.ui.button.confirm": "Zatwierdź",
-  "captcha.ui.button.skip": "Pomiń",
 
   "captcha.key.obsidian": "Obsydian",
   "captcha.key.leaves": "Liście",

@@ -1,4 +1,4 @@
-package net.tuples.captcha;
+package net.tuples.captcha.config;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.tuples.captcha.Captcha;
 
 import java.io.BufferedReader;
 import java.io.IOException;
