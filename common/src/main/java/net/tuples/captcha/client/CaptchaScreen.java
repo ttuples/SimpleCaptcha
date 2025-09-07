@@ -75,6 +75,7 @@ public class CaptchaScreen extends Screen {
 
     private void refreshCaptcha() {
         // Reset elements
+        this.children().removeIf(widget -> widget instanceof CaptchaImageButton);
         buttonStates.clear();
         gridDisplay = new GridLayout().spacing(cellSpacing);
 
