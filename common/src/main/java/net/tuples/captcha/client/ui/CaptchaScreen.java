@@ -57,6 +57,10 @@ public class CaptchaScreen extends Screen {
                     .onValueChange((button, value) -> {
                         CaptchaConfig.getInstance().creepySounds = value;
                         CaptchaConfig.saveConfig(CaptchaConfig.CONFIG_FILE, CaptchaConfig.getInstance());
+
+                        if (!value && soundManager.isActive(sound)) {
+                            soundManager.stop(sound);
+                        }
                     }).build();
 
     private final Button confirm = Button.builder(
