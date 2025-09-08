@@ -4,6 +4,9 @@
 
   "captcha.ui.instruction": "Zaznacz wszystkie obrazy zawierające",
   "captcha.ui.button.confirm": "Zatwierdź",
+  "captcha.ui.button.settings": "Ustawienia",
+  "captcha.ui.checkbox.sound_effects": "Efekty dźwiękowe",
+  "captcha.ui.checkbox.creepy_sounds": "Przerażające dźwięki",
 
   "captcha.key.obsidian": "Obsydian",
   "captcha.key.leaves": "Liście",

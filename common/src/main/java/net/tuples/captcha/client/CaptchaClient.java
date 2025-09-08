@@ -2,6 +2,7 @@ package net.tuples.captcha.client;
 
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.Minecraft;
+import net.tuples.captcha.client.ui.CaptchaScreen;
 import net.tuples.captcha.config.CaptchaData;
 import net.tuples.captcha.commands.OpenCaptchaS2CPayload;
 

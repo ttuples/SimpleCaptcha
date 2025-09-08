@@ -1,10 +1,11 @@
-package net.tuples.captcha.client;
+package net.tuples.captcha.client.ui;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.Screen;
@@ -14,6 +15,7 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.tuples.captcha.Captcha;
+import net.tuples.captcha.client.CaptchaSounds;
 import net.tuples.captcha.config.CaptchaConfig;
 import net.tuples.captcha.config.CaptchaData;
 
@@ -37,39 +39,62 @@ public class CaptchaScreen extends Screen {
     private SoundManager soundManager;
     private SoundInstance sound;
 
+    // Config
+    private final Checkbox soundEffectsCheckbox =
+            Checkbox.builder(Component.translatable("captcha.ui.checkbox.sound_effects"), Minecraft.getInstance().font)
+                    .pos(cellSpacing, cellSpacing)
+                    .maxWidth(150)
+                    .selected(CaptchaConfig.getInstance().soundEffects)
+                    .onValueChange((button, value) -> {
+                        CaptchaConfig.getInstance().soundEffects = value;
+                        CaptchaConfig.saveConfig(CaptchaConfig.CONFIG_FILE, CaptchaConfig.getInstance());
+                    }).build();
+    private final Checkbox creepySoundsCheckbox =
+            Checkbox.builder(Component.translatable("captcha.ui.checkbox.creepy_sounds"), Minecraft.getInstance().font)
+                    .pos(cellSpacing, cellSpacing * 2 + 20)
+                    .maxWidth(150)
+                    .selected(CaptchaConfig.getInstance().soundEffects)
+                    .onValueChange((button, value) -> {
+                        CaptchaConfig.getInstance().creepySounds = value;
+                        CaptchaConfig.saveConfig(CaptchaConfig.CONFIG_FILE, CaptchaConfig.getInstance());
+                    }).build();
+
     private final Button confirm = Button.builder(
-            Component.translatable("captcha.ui.button.confirm"), button -> {
-                List<Boolean> correctValues = new ArrayList<>(captchaKey.values());
-                boolean allMatch = true;
-                int index = 0;
-                for (Map.Entry<CaptchaImageButton, Boolean> entry : buttonStates.entrySet()) {
-                    if (entry.getValue() != correctValues.get(index)) {
-                        allMatch = false;
-                        break;
-                    }
-                    index++;
-                }
-                if (allMatch) {
-//                    if (Captcha.config.soundEffects)
-                    soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("button3")));
-                    Minecraft.getInstance().setScreen(null);
-                }
-                else {
-                    if (CaptchaConfig.soundEffects)
-                        soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("button10")));
-                    refreshCaptcha();
-                }
-            })
+                    Component.translatable("captcha.ui.button.confirm"), button -> {
+                        List<Boolean> correctValues = new ArrayList<>(captchaKey.values());
+                        boolean allMatch = true;
+                        int index = 0;
+                        for (Map.Entry<CaptchaImageButton, Boolean> entry : buttonStates.entrySet()) {
+                            if (entry.getValue() != correctValues.get(index)) {
+                                allMatch = false;
+                                break;
+                            }
+                            index++;
+                        }
+                        if (allMatch) {
+                            if (CaptchaConfig.getInstance().soundEffects)
+                                soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("button3")));
+                            Minecraft.getInstance().setScreen(null);
+                        }
+                        else {
+                            if (CaptchaConfig.getInstance().soundEffects)
+                                soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("button10")));
+                            refreshCaptcha();
+                        }
+                    })
             .size(80, 20)
             .tooltip(Tooltip.create(Component.literal(":)")))
             .build();
 
     public CaptchaScreen() {
         super(Component.translatable("captcha.narrator.title"));
+
         client = Minecraft.getInstance();
         soundManager = client.getSoundManager();
-//        if (CaptchaConfig.soundEffects)
-        soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("blip1")));
+
+        if (CaptchaConfig.getInstance().soundEffects)
+            soundManager.play(SimpleSoundInstance.forAmbientAddition(CaptchaSounds.get("blip1")));
+
         refreshCaptcha();
     }
 
@@ -98,7 +123,7 @@ public class CaptchaScreen extends Screen {
         }
 
         // Play random spooky sound if on creep captcha
-        if (captcha_data.get("creep").getAsBoolean()) { // && Captcha.config.sounds
+        if (captcha_data.get("creep").getAsBoolean() && CaptchaConfig.getInstance().creepySounds) {
             if (client.level != null && client.player != null) {
                 if (soundManager.isActive(sound))
                     soundManager.stop(sound);
@@ -154,9 +179,18 @@ public class CaptchaScreen extends Screen {
             }
         });
 
-        confirm.setPosition((width / 2) - 40, gridY + gridWidth + 10);
+        confirm.setPosition((width / 2) - (confirm.getWidth() / 2), gridY + gridWidth + 10);
         if (!this.children().contains(confirm)) {
             addRenderableWidget(confirm);
+        }
+
+        soundEffectsCheckbox.setPosition(cellSpacing, cellSpacing);
+        if (!this.children().contains(soundEffectsCheckbox)) {
+            addRenderableWidget(soundEffectsCheckbox);
+        }
+        creepySoundsCheckbox.setPosition(cellSpacing, cellSpacing * 2 + 20);
+        if (!this.children().contains(creepySoundsCheckbox)) {
+            addRenderableWidget(creepySoundsCheckbox);
         }
     }
 

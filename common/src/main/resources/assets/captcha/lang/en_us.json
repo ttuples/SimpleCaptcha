@@ -4,6 +4,9 @@
 
   "captcha.ui.instruction": "Select all images that contain",
   "captcha.ui.button.confirm": "Confirm",
+  "captcha.ui.button.settings": "Settings",
+  "captcha.ui.checkbox.sound_effects": "Sound Effects",
+  "captcha.ui.checkbox.creepy_sounds": "Creepy Sounds",
 
   "captcha.key.obsidian": "Obsidian",
   "captcha.key.leaves": "Leaves",
