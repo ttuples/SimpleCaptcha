@@ -53,7 +53,7 @@ public class CaptchaScreen extends Screen {
             Checkbox.builder(Component.translatable("captcha.ui.checkbox.creepy_sounds"), Minecraft.getInstance().font)
                     .pos(cellSpacing, cellSpacing * 2 + 20)
                     .maxWidth(150)
-                    .selected(CaptchaConfig.getInstance().soundEffects)
+                    .selected(CaptchaConfig.getInstance().creepySounds)
                     .onValueChange((button, value) -> {
                         CaptchaConfig.getInstance().creepySounds = value;
                         CaptchaConfig.saveConfig(CaptchaConfig.CONFIG_FILE, CaptchaConfig.getInstance());
