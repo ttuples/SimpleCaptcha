@@ -47,7 +47,7 @@ public class CaptchaScreen extends Screen {
                     .selected(CaptchaConfig.getInstance().soundEffects)
                     .onValueChange((button, value) -> {
                         CaptchaConfig.getInstance().soundEffects = value;
-                        CaptchaConfig.saveConfig(CaptchaConfig.CONFIG_FILE, CaptchaConfig.getInstance());
+                        CaptchaConfig.save();
                     }).build();
     private final Checkbox creepySoundsCheckbox =
             Checkbox.builder(Component.translatable("captcha.ui.checkbox.creepy_sounds"), Minecraft.getInstance().font)
@@ -56,9 +56,9 @@ public class CaptchaScreen extends Screen {
                     .selected(CaptchaConfig.getInstance().creepySounds)
                     .onValueChange((button, value) -> {
                         CaptchaConfig.getInstance().creepySounds = value;
-                        CaptchaConfig.saveConfig(CaptchaConfig.CONFIG_FILE, CaptchaConfig.getInstance());
+                        CaptchaConfig.save();
 
-                        if (!value && soundManager.isActive(sound)) {
+                        if (soundManager.isActive(sound)) {
                             soundManager.stop(sound);
                         }
                     }).build();

@@ -20,6 +20,12 @@ public class CaptchaConfig {
         return INSTANCE;
     }
 
+    public static void save() {
+        if (INSTANCE != null) {
+            saveConfig(CONFIG_FILE, INSTANCE);
+        }
+    }
+
     public static <T> T loadConfig(String fileName, Class<T> clazz, T defaultInstance) {
         try {
             java.nio.file.Path configPath = java.nio.file.Paths.get(fileName);
