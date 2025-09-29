@@ -42,10 +42,19 @@ public class CaptchaScreen extends Screen {
 
     // Config
     private final Checkbox soundEffectsCheckbox =
-            new Checkbox(cellSpacing, cellSpacing, 150, 40, Component.translatable("captcha.ui.checkbox.sound_effects"), CaptchaConfig.getInstance().soundEffects);
+            new ConfigCheckbox(cellSpacing, cellSpacing, 20, 20, Component.translatable("captcha.ui.checkbox.sound_effects"), CaptchaConfig.getInstance().soundEffects, value -> {
+                CaptchaConfig.getInstance().soundEffects = value;
+                CaptchaConfig.save();
+            });
 
     private final Checkbox creepySoundsCheckbox =
-            new Checkbox(cellSpacing, cellSpacing * 2 + 20, 150, 40, Component.translatable("captcha.ui.checkbox.sound_effects"), CaptchaConfig.getInstance().creepySounds);
+            new ConfigCheckbox(cellSpacing, cellSpacing * 2 + 20, 20, 20, Component.translatable("captcha.ui.checkbox.creepy_sounds"), CaptchaConfig.getInstance().creepySounds, value -> {
+                CaptchaConfig.getInstance().creepySounds = value;
+                CaptchaConfig.save();
+
+                if (soundManager.isActive(sound))
+                    soundManager.stop(sound);
+            });
 
     private final Button confirm = Button.builder(
                     Component.translatable("captcha.ui.button.confirm"), button -> {
@@ -227,10 +236,11 @@ public class CaptchaScreen extends Screen {
                     image,
                     getX(),
                     getY(),
-                    getX() + getWidth(),
-                    getY() + getHeight(),
-                    0, 1,
-                    0, 1
+                    0, 0,
+                    getWidth(),
+                    getHeight(),
+                    getWidth(),
+                    getHeight()
             );
 
             // Determine outline states
