@@ -2,9 +2,9 @@ package net.tuples.captcha.client;
 
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.Minecraft;
+import net.tuples.captcha.Captcha;
 import net.tuples.captcha.client.ui.CaptchaScreen;
 import net.tuples.captcha.config.CaptchaData;
-import net.tuples.captcha.commands.OpenCaptchaS2CPayload;
 
 public class CaptchaClient {
     public static void init(Minecraft client) {
@@ -12,8 +12,7 @@ public class CaptchaClient {
 
         NetworkManager.registerReceiver(
             NetworkManager.Side.S2C,
-            OpenCaptchaS2CPayload.TYPE,
-            OpenCaptchaS2CPayload.CODEC,
+            Captcha.OPEN_CAPTCHA,
             (payload, context) -> {
                 context.queue(() -> {
                     Minecraft.getInstance().setScreen(new CaptchaScreen());

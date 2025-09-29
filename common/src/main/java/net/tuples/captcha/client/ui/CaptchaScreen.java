@@ -13,6 +13,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.tuples.captcha.Captcha;
 import net.tuples.captcha.client.CaptchaSounds;
@@ -41,27 +42,10 @@ public class CaptchaScreen extends Screen {
 
     // Config
     private final Checkbox soundEffectsCheckbox =
-            Checkbox.builder(Component.translatable("captcha.ui.checkbox.sound_effects"), Minecraft.getInstance().font)
-                    .pos(cellSpacing, cellSpacing)
-                    .maxWidth(150)
-                    .selected(CaptchaConfig.getInstance().soundEffects)
-                    .onValueChange((button, value) -> {
-                        CaptchaConfig.getInstance().soundEffects = value;
-                        CaptchaConfig.saveConfig(CaptchaConfig.CONFIG_FILE, CaptchaConfig.getInstance());
-                    }).build();
-    private final Checkbox creepySoundsCheckbox =
-            Checkbox.builder(Component.translatable("captcha.ui.checkbox.creepy_sounds"), Minecraft.getInstance().font)
-                    .pos(cellSpacing, cellSpacing * 2 + 20)
-                    .maxWidth(150)
-                    .selected(CaptchaConfig.getInstance().creepySounds)
-                    .onValueChange((button, value) -> {
-                        CaptchaConfig.getInstance().creepySounds = value;
-                        CaptchaConfig.saveConfig(CaptchaConfig.CONFIG_FILE, CaptchaConfig.getInstance());
+            new Checkbox(cellSpacing, cellSpacing, 150, 40, Component.translatable("captcha.ui.checkbox.sound_effects"), CaptchaConfig.getInstance().soundEffects);
 
-                        if (!value && soundManager.isActive(sound)) {
-                            soundManager.stop(sound);
-                        }
-                    }).build();
+    private final Checkbox creepySoundsCheckbox =
+            new Checkbox(cellSpacing, cellSpacing * 2 + 20, 150, 40, Component.translatable("captcha.ui.checkbox.sound_effects"), CaptchaConfig.getInstance().creepySounds);
 
     private final Button confirm = Button.builder(
                     Component.translatable("captcha.ui.button.confirm"), button -> {
@@ -148,7 +132,7 @@ public class CaptchaScreen extends Screen {
         gridSize = (int) Math.ceil(Math.sqrt(imagePaths.size()));
 
         for (int i = 0; i < imagePaths.size(); i++) {
-            ResourceLocation image = ResourceLocation.fromNamespaceAndPath(Captcha.MOD_ID, imagePaths.get(i));
+            ResourceLocation image = new ResourceLocation(Captcha.MOD_ID, imagePaths.get(i));
             CaptchaImageButton button = new CaptchaImageButton(0, 0, cellSize, cellSize, image, b -> {
                 buttonStates.put((CaptchaImageButton) b, !buttonStates.getOrDefault(b, false));
             });
@@ -245,8 +229,8 @@ public class CaptchaScreen extends Screen {
                     getY(),
                     getX() + getWidth(),
                     getY() + getHeight(),
-                    0f, 1f,
-                    0f, 1f
+                    0, 1,
+                    0, 1
             );
 
             // Determine outline states

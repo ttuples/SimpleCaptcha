@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class CaptchaData {
     public static JsonObject captchas = new JsonObject();
 
-    private static final ResourceLocation jsonId = ResourceLocation.fromNamespaceAndPath(Captcha.MOD_ID, "captcha.json");
+    private static final ResourceLocation jsonId = new ResourceLocation(Captcha.MOD_ID, "captcha.json");
 
     private static Minecraft client;
 

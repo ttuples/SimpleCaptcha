@@ -34,7 +34,7 @@ public class CaptchaSounds {
     }
 
     private static RegistrySupplier<SoundEvent> register(String name) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Captcha.MOD_ID, name);
+        ResourceLocation id = new ResourceLocation(Captcha.MOD_ID, name);
         RegistrySupplier<SoundEvent> sound = SOUNDS.register(name,
                 () -> SoundEvent.createVariableRangeEvent(id));
         SOUND_MAP.put(name, sound);

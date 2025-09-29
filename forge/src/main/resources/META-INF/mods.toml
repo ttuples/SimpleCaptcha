@@ -4,30 +4,30 @@ loaderVersion = "[47,)"
 license = "MIT"
 
 [[mods]]
-modId = "misc"
+modId = "captcha"
 version = "${version}"
-displayName = "TuplesMisc"
+displayName = "Simple Captcha"
 authors = "tuples"
 description = '''
-Personal Test Mod
+Funny captcha prank for your friends
 '''
-#logoFile = ""
+logoFile="assets/captcha/icon.png"
 
-[[dependencies.misc]]
+[[dependencies.captcha]]
 modId = "forge"
 mandatory = true
 versionRange = "[47,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.misc]]
+[[dependencies.captcha]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.20.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.misc]]
+[[dependencies.captcha]]
 modId = "architectury"
 mandatory = true
 versionRange = "[9.2.14,)"
