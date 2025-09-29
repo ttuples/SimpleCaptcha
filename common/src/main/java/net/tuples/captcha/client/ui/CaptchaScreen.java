@@ -42,19 +42,27 @@ public class CaptchaScreen extends Screen {
 
     // Config
     private final Checkbox soundEffectsCheckbox =
-            new ConfigCheckbox(cellSpacing, cellSpacing, 20, 20, Component.translatable("captcha.ui.checkbox.sound_effects"), CaptchaConfig.getInstance().soundEffects, value -> {
-                CaptchaConfig.getInstance().soundEffects = value;
-                CaptchaConfig.save();
-            });
+            new Checkbox(cellSpacing, cellSpacing, 20, 20, Component.translatable("captcha.ui.checkbox.sound_effects"), CaptchaConfig.getInstance().soundEffects) {
+                @Override
+                public void onPress() {
+                    super.onPress();
+                    CaptchaConfig.getInstance().soundEffects = this.selected();
+                    CaptchaConfig.save();
+                }
+            };
 
     private final Checkbox creepySoundsCheckbox =
-            new ConfigCheckbox(cellSpacing, cellSpacing * 2 + 20, 20, 20, Component.translatable("captcha.ui.checkbox.creepy_sounds"), CaptchaConfig.getInstance().creepySounds, value -> {
-                CaptchaConfig.getInstance().creepySounds = value;
-                CaptchaConfig.save();
+            new Checkbox(cellSpacing, cellSpacing * 2 + 20, 20, 20, Component.translatable("captcha.ui.checkbox.creepy_sounds"), CaptchaConfig.getInstance().creepySounds) {
+                @Override
+                public void onPress() {
+                    super.onPress();
+                    CaptchaConfig.getInstance().creepySounds = this.selected();
+                    CaptchaConfig.save();
 
-                if (soundManager.isActive(sound))
-                    soundManager.stop(sound);
-            });
+                    if (soundManager.isActive(sound))
+                        soundManager.stop(sound);
+                }
+            };
 
     private final Button confirm = Button.builder(
                     Component.translatable("captcha.ui.button.confirm"), button -> {
