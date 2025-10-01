@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "captcha",
+  "version": "${version}",
+  "name": "Simple Captcha",
+  "description": "Funny captcha prank for your friends",
+  "authors": [
+    "tuples"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/simple-captcha",
+    "sources": "https://github.com/ttuples/SimpleCaptcha"
+  },
+  "license": "MIT",
+  "icon": "assets/captcha/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.tuples.captcha.fabric.CaptchaFabric"
+    ],
+    "client": [
+      "net.tuples.captcha.fabric.client.CaptchaFabricClient"
+    ]
+  },
+  "mixins": [
+    "captcha.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "architectury": ">=9.2.14",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
